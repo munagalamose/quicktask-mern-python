@@ -132,44 +132,6 @@ Creates user **demo@quicktask.com** / **demo123** with 5 sample tasks.
 - `GET /api/analytics/user-stats` – Header `X-User-Id` (user’s MongoDB ObjectId). Returns total tasks, by status, by priority, completion rate.
 - `GET /api/analytics/productivity` – Header `X-User-Id`. Optional query: `start_date`, `end_date` (YYYY-MM-DD). Returns created/completed in period and daily trends.
 
-## Deploy Frontend on Vercel
-
-You can deploy **only the frontend** on Vercel. The backend and analytics must be hosted elsewhere (e.g. [Render](https://render.com), [Railway](https://railway.app)) and use **MongoDB Atlas** for the database.
-
-### Steps
-
-1. **Push your code to GitHub** (you already have: [quicktask-mern-python](https://github.com/munagalamose/quicktask-mern-python)).
-
-2. **Go to [vercel.com](https://vercel.com)** and sign in with GitHub.
-
-3. **Import your repo**
-   - Click **Add New…** → **Project**.
-   - Select **munagalamose/quicktask-mern-python**.
-   - Click **Import**.
-
-4. **Configure the project**
-   - **Root Directory:** Click **Edit**, choose **frontend**, then **Continue**.
-   - **Framework Preset:** Vite (should be auto-detected).
-   - **Build Command:** `npm run build` (default).
-   - **Output Directory:** `dist` (default).
-   - **Install Command:** `npm install` (default).
-
-5. **Add Environment Variables** (required for API and analytics)
-   - **Name:** `VITE_API_URL`  
-     **Value:** Your backend API URL, e.g. `https://your-backend.onrender.com/api`
-   - **Name:** `VITE_ANALYTICS_URL`  
-     **Value:** Your analytics URL, e.g. `https://your-analytics.onrender.com`  
-   - If you don’t have backend/analytics deployed yet, you can add placeholder URLs and update them later.
-
-6. Click **Deploy**. Vercel will build and deploy the frontend and give you a URL like `https://quicktask-xxx.vercel.app`.
-
-### After deploy
-
-- **Backend:** Deploy the `backend/` folder on Render (Web Service) or Railway, set `MONGODB_URI` (e.g. MongoDB Atlas) and `JWT_SECRET`, then set your frontend’s `VITE_API_URL` to that backend URL and redeploy the frontend on Vercel.
-- **Analytics:** Deploy the `analytics-service/` (Python/Flask) on Render or Railway with the same `MONGODB_URI`, then set `VITE_ANALYTICS_URL` and redeploy the frontend.
-
-React Router is configured via `frontend/vercel.json` so routes like `/dashboard` and `/tasks` work correctly.
-
 ## License
 
 MIT
